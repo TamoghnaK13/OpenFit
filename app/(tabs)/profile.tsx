@@ -1,10 +1,10 @@
-// app/(tabs)/home.tsx
+// app/(tabs)/profile.tsx
 import { View, Text, StyleSheet } from "react-native";
 
-export default function Home() {
+export default function Profile() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Welcome to OpenFit!</Text>
+      <Text style={styles.text}>Your Profile</Text>
     </View>
   );
 }

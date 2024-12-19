@@ -1,35 +1,34 @@
-import { Tabs } from 'expo-router';
-import Ionicons from '@expo/vector-icons/Ionicons';
+// app/(tabs)/_layout.tsx
+import { Tabs } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
-export default function TabLayout() {
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#ffd33d',
-        headerStyle: {
-          backgroundColor: '#25292e',
-        },
-        headerShadowVisible: false,
-        headerTintColor: '#fff',
-        tabBarStyle: {
-          backgroundColor: '#25292e',
-        },
+        tabBarStyle: { backgroundColor: "#fff", paddingBottom: 5 },
+        tabBarActiveTintColor: "#2ecc71",
+        tabBarInactiveTintColor: "#95a5a6",
       }}
     >
-      <Tabs.Screen name="index" options={{
-        title: 'Home',
-        tabBarIcon: ({ color, focused }) => (
-          <Ionicons name={focused ? 'home-sharp' : 'home-outline'} color={color} size={24} />
-        )
-      }}
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" color={color} size={size} />
+          ),
+        }}
       />
-      <Tabs.Screen name="about" options={{
-        title: 'About',
-        tabBarIcon: ({ color, focused }) => (
-          <Ionicons name={focused ? 'information-circle' : 'information-circle-outline'} color={color} size={24} />
-        )
-      }}
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" color={color} size={size} />
+          ),
+        }}
       />
     </Tabs>
-  )
+  );
 }
