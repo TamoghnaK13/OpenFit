@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
 
 type Props = {
+  key? :number,
   title?: string,
   description?: string,
 }

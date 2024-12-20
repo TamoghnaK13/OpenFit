@@ -5,35 +5,29 @@ import Routine from '@/components/Routine';
 import RoutineCreator from '@/components/RoutineCreator';
 
 /*
-TODO:
-Divide this up into some components
-Make the routines buttons that will do something later
-Understand what the fuck is going on because ChatGPT did the styling way too well.
+Warning, each child in list must have unique key prop. Error for some reason. Figure out whhy and how to fix.
 */
 
-type RoutineInfo = {
-  id: number;
-  title: string;
-  description: string;
-};
-
 type RoutineProps = {
+  id: number,
   title: string,
   description: string;
 }
 
 export default function Routines() {
-  const [routines, setRoutines] = useState<RoutineInfo[]>([
+  const [routines, setRoutines] = useState<RoutineProps[]>([
     {id: 0, title: "Routine", description: "This is a placeholder routine. Edit or delete it!"},
   ]);
   const [isRoutineCreatorVisible, setIsRoutineCreatorVisible] = useState<boolean>(false);
 
-  const addRoutine = ({ title, description }: RoutineProps) => {
+  const addRoutine = ({ id, title, description }: RoutineProps) => {
     const newRoutine = {
-      id: routines.length,
+      id: id,
       title: title,
       description: description
     }
+
+    console.log(newRoutine);
 
     setRoutines((prevRoutines) => [...prevRoutines, newRoutine]);
   };
@@ -52,7 +46,7 @@ export default function Routines() {
       
       <ScrollView contentContainerStyle={styles.routinesContainer}>
         {routines.map((routine) => (
-          <Routine title={routine.title} description={routine.description} />
+          <Routine key={routine.id} title={routine.title} description={routine.description} />
         ))}
       </ScrollView>
 
@@ -60,7 +54,7 @@ export default function Routines() {
         <Text style={styles.addButtonText}>+ Add New Routine</Text>
       </TouchableOpacity>
       <RoutineCreator isVisible={isRoutineCreatorVisible} onClose={hideRoutineCreator} 
-        onSave={(title, description) => addRoutine({title: title, description: description})} />
+        onSave={(title, description) => addRoutine({id: routines.length, title: title, description: description})} />
     </View>
   );
 }
