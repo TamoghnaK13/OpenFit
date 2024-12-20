@@ -1,9 +1,10 @@
-
 # **OpenFit: Your Open Source Workout Tracker**
 
 OpenFit is a cross-platform workout tracker designed to help you organize, track, and achieve your fitness goals. Built using **React Native** and **Expo**, OpenFit runs seamlessly on **Android**, **iOS**, and **Web**, making your fitness journey accessible wherever you are. 
 
-This is an open-source project aimed at fostering collaboration and innovation. Contributions are welcome to enhance features, design, and functionality.
+This is an open-source project. Contributions are welcome to enhance features, design, and functionality.
+
+Donations are welcome (though not yet accepted) and will be used to fund the deployment of this app (expo charges for more monthly users, and web domains cost money).
 
 ---
 
@@ -24,12 +25,11 @@ Ensure you have the following installed:
 
 - [Node.js](https://nodejs.org/) (16.x or later)
 - [Expo CLI](https://docs.expo.dev/get-started/installation/) (`npm install -g expo-cli`)
-- A mobile device or emulator for Android/iOS
-- (Optional) A web browser for the web version
+- A web browser, Android/IOS emulator, and or Expo Go installed on a mobile device.
 
 ### **2. Clone the Repository**
 ```bash
-git clone https://github.com/yourusername/OpenFit.git
+git clone https://github.com/iain-broomell/OpenFit
 cd OpenFit
 ```
 
@@ -43,15 +43,17 @@ npm install
 #### **For Android/iOS**
 Run the Expo development server and scan the QR code with the Expo Go app:
 ```bash
-expo start
+npx expo start
 ```
 
 #### **For Web**
 Launch the web version:
 ```bash
-expo start --web
+npx expo start --web
 ```
+Then navigate to `localhost:8081`
 
+**This app will be published on Google Play and the Apple App Store in the future.**
 ---
 
 ## **Contributing**
@@ -68,7 +70,7 @@ git checkout -b feature/your-feature-name
 ```
 
 ### **3. Make Your Changes**
-- Follow the project's style guide.
+- Follow naming conventions
 - Ensure all changes are well-documented and tested.
 
 ### **4. Commit and Push**
@@ -90,9 +92,9 @@ git push origin feature/your-feature-name
 OpenFit/
 ├── app/                   # Main application folder
 │   ├── (tabs)/            # Tab-based navigation screens
-│   │   ├── index.tsx      # Home screen
-│   │   ├── routines.tsx   # Routine list screen
-│   │   ├── profile.tsx    # User profile screen (placeholder)
+│   │   ├── index.tsx      # Home tab
+│   │   ├── routines.tsx   # Routine list tab
+│   │   ├── profile.tsx    # User profile tab
 │   └── components/        # Reusable components
 │       ├── Routine.tsx    # Routine card component
 │       ├── RoutineCreator.tsx # Modal to create routines
@@ -110,7 +112,7 @@ OpenFit/
 - Dark mode.
 - Analytics for workout progress.
 - Cloud-based account syncing.
-- Social features to share routines.
+- Social features to share routines and lifts.
 
 ---
 
@@ -123,7 +125,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## **Contact**
 
 If you have questions, suggestions, or want to collaborate:
-- Open an issue in the [GitHub Issues](https://github.com/yourusername/OpenFit/issues) tab.
-- Reach out via email at **youremail@example.com**.
+- Open an issue in the [GitHub Issues](https://github.com/iain-broomell/OpenFit/issues) tab.
+- Reach out via email at **iainbroomell@gmail.com**.
 
 ---
