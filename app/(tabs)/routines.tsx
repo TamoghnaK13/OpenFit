@@ -1,14 +1,12 @@
+// app/(tabs)/routines.tsx
+
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import {useState} from 'react';
+import { useState } from 'react';
 
 import Routine from '@/components/Routine';
 import RoutineCreator from '@/components/RoutineCreator';
 
-/*
-Warning, each child in list must have unique key prop. Error for some reason. Figure out whhy and how to fix.
-*/
-
-type RoutineProps = {
+export type RoutineProps = {
   id: number,
   title: string,
   description: string;
@@ -16,7 +14,7 @@ type RoutineProps = {
 
 export default function Routines() {
   const [routines, setRoutines] = useState<RoutineProps[]>([
-    {id: 0, title: "Routine", description: "This is a placeholder routine. Edit or delete it!"},
+    { id: 0, title: "Routine", description: "This is a placeholder routine. Edit or delete it!" },
   ]);
   const [isRoutineCreatorVisible, setIsRoutineCreatorVisible] = useState<boolean>(false);
 
@@ -32,6 +30,10 @@ export default function Routines() {
     setRoutines((prevRoutines) => [...prevRoutines, newRoutine]);
   };
 
+  const deleteRoutine = (id: number) => {
+    setRoutines((prevRoutines) => prevRoutines.filter((routine) => routine.id !== id));
+  };
+
   const showRoutineCreator = () => {
     setIsRoutineCreatorVisible(true);
   };
@@ -43,18 +45,22 @@ export default function Routines() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Your Routines</Text>
-      
+
       <ScrollView contentContainerStyle={styles.routinesContainer}>
         {routines.map((routine) => (
-          <Routine key={routine.id} title={routine.title} description={routine.description} />
+          <Routine
+            id={routine.id} key={routine.id}
+            title={routine.title}
+            description={routine.description}
+            deleteFunction={deleteRoutine} />
         ))}
       </ScrollView>
 
       <TouchableOpacity style={styles.addButton} onPress={showRoutineCreator}>
         <Text style={styles.addButtonText}>+ Add New Routine</Text>
       </TouchableOpacity>
-      <RoutineCreator isVisible={isRoutineCreatorVisible} onClose={hideRoutineCreator} 
-        onSave={(title, description) => addRoutine({id: routines.length, title: title, description: description})} />
+      <RoutineCreator isVisible={isRoutineCreatorVisible} onClose={hideRoutineCreator}
+        onSave={(title, description) => addRoutine({ id: routines.length, title: title, description: description })} />
     </View>
   );
 }
