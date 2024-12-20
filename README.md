@@ -1,50 +1,129 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# **OpenFit: Your Open Source Workout Tracker**
 
-## Get started
+OpenFit is a cross-platform workout tracker designed to help you organize, track, and achieve your fitness goals. Built using **React Native** and **Expo**, OpenFit runs seamlessly on **Android**, **iOS**, and **Web**, making your fitness journey accessible wherever you are. 
 
-1. Install dependencies
+This is an open-source project aimed at fostering collaboration and innovation. Contributions are welcome to enhance features, design, and functionality.
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## **Features**
 
-   ```bash
-    npx expo start
-   ```
+- Create and organize custom workout routines.
+- Track your progress over time.
+- Cross-platform support (Android, iOS, and Web).
+- User-friendly interface with dark and light theme options (planned).
+- Easy customization and extension via community contributions.
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## **Getting Started**
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### **1. Prerequisites**
+Ensure you have the following installed:
 
-## Get a fresh project
+- [Node.js](https://nodejs.org/) (16.x or later)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/) (`npm install -g expo-cli`)
+- A mobile device or emulator for Android/iOS
+- (Optional) A web browser for the web version
 
-When you're ready, run:
-
+### **2. Clone the Repository**
 ```bash
-npm run reset-project
+git clone https://github.com/yourusername/OpenFit.git
+cd OpenFit
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### **3. Install Dependencies**
+```bash
+npm install
+```
 
-## Learn more
+### **4. Run the App**
 
-To learn more about developing your project with Expo, look at the following resources:
+#### **For Android/iOS**
+Run the Expo development server and scan the QR code with the Expo Go app:
+```bash
+expo start
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+#### **For Web**
+Launch the web version:
+```bash
+expo start --web
+```
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## **Contributing**
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+We welcome contributions of all kinds! Here's how you can get started:
+
+### **1. Fork the Repository**
+Click the "Fork" button at the top right of this page to create your own copy of the repository.
+
+### **2. Create a Feature Branch**
+Create a branch for your feature or bug fix:
+```bash
+git checkout -b feature/your-feature-name
+```
+
+### **3. Make Your Changes**
+- Follow the project's style guide.
+- Ensure all changes are well-documented and tested.
+
+### **4. Commit and Push**
+Commit your changes with a descriptive message:
+```bash
+git commit -m "Add: Your detailed commit message"
+git push origin feature/your-feature-name
+```
+
+### **5. Open a Pull Request**
+- Navigate to the original repository.
+- Click "New Pull Request" and select your branch.
+
+---
+
+## **Project Structure**
+
+```
+OpenFit/
+├── app/                   # Main application folder
+│   ├── (tabs)/            # Tab-based navigation screens
+│   │   ├── index.tsx      # Home screen
+│   │   ├── routines.tsx   # Routine list screen
+│   │   ├── profile.tsx    # User profile screen (placeholder)
+│   └── components/        # Reusable components
+│       ├── Routine.tsx    # Routine card component
+│       ├── RoutineCreator.tsx # Modal to create routines
+├── assets/                # Images, icons, etc.
+├── README.md              # Project documentation
+├── package.json           # Dependencies and scripts
+└── tsconfig.json          # TypeScript configuration
+```
+
+---
+
+## **Roadmap**
+
+### **Planned Features**
+- Dark mode.
+- Analytics for workout progress.
+- Cloud-based account syncing.
+- Social features to share routines.
+
+---
+
+## **License**
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## **Contact**
+
+If you have questions, suggestions, or want to collaborate:
+- Open an issue in the [GitHub Issues](https://github.com/yourusername/OpenFit/issues) tab.
+- Reach out via email at **youremail@example.com**.
+
+---
