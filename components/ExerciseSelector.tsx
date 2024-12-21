@@ -10,14 +10,14 @@ type Props = {
 
 // Temporary mock data - this would normally come from an API or database
 const MOCK_EXERCISES: Exercise[] = [
-  { id: 1, name: "Bench Press" },
-  { id: 2, name: "Squat" },
-  { id: 3, name: "Deadlift" },
-  { id: 4, name: "Pull-ups" },
-  { id: 5, name: "Push-ups" },
-  { id: 6, name: "Dumbbell Rows" },
-  { id: 7, name: "Shoulder Press" },
-  { id: 8, name: "Lunges" },
+  { id: 1, name: "Bench Press", sets: [] },
+  { id: 2, name: "Squat", sets: [] },
+  { id: 3, name: "Deadlift", sets: [] },
+  { id: 4, name: "Pull-ups", sets: [] },
+  { id: 5, name: "Push-ups", sets: [] },
+  { id: 6, name: "Dumbbell Rows", sets: [] },
+  { id: 7, name: "Shoulder Press", sets: [] },
+  { id: 8, name: "Lunges", sets: [] },
 ];
 
 export default function ExerciseSelector({ isVisible, onClose, onSelect }: Props) {
