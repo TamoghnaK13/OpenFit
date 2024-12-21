@@ -2,6 +2,7 @@
 
 import { View, Text, StyleSheet, Pressable, Modal, TextInput } from "react-native";
 import { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
   isVisible: boolean;
@@ -28,30 +29,39 @@ export default function RoutineCreator({ isVisible, onClose, onSave }: Props) {
     <Modal animationType="fade" transparent={true} visible={isVisible}>
       <View style={styles.modalOverlay}>
         <View style={styles.modalContainer}>
-          <Pressable onPress={onClose} style={styles.closeButton}>
-            <Text style={styles.closeButtonText}>Close</Text>
-          </Pressable>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Create Routine</Text>
+            <Pressable onPress={onClose} style={styles.closeButton}>
+              <Ionicons name="close" size={24} color="#666" />
+            </Pressable>
+          </View>
 
-          <Text style={styles.header}>Create a New Routine</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Routine Name</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter routine name"
+              value={title}
+              onChangeText={setTitle}
+              placeholderTextColor="#999"
+            />
+          </View>
 
-          <TextInput
-            style={styles.input}
-            placeholder="Routine Title"
-            value={title}
-            onChangeText={setTitle}
-          />
-
-          <TextInput
-            style={[styles.input, styles.textArea]}
-            placeholder="Routine Description"
-            value={description}
-            onChangeText={setDescription}
-            multiline={true}
-            numberOfLines={4}
-          />
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Description</Text>
+            <TextInput
+              style={[styles.input, styles.textArea]}
+              placeholder="Describe your routine"
+              value={description}
+              onChangeText={setDescription}
+              multiline={true}
+              numberOfLines={4}
+              placeholderTextColor="#999"
+            />
+          </View>
 
           <Pressable onPress={handleSave} style={styles.saveButton}>
-            <Text style={styles.saveButtonText}>Save Routine</Text>
+            <Text style={styles.saveButtonText}>Create Routine</Text>
           </Pressable>
         </View>
       </View>
@@ -62,67 +72,65 @@ export default function RoutineCreator({ isVisible, onClose, onSave }: Props) {
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent overlay
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
   },
   modalContainer: {
     width: "90%",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 20,
     shadowColor: "#000",
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
     shadowOffset: { width: 0, height: 4 },
-    elevation: 5, // Android shadow
-  },
-  closeButton: {
-    alignSelf: "flex-end",
-    backgroundColor: "#333333", // Close button matches app's accent
-    width: 80,
-    height: 30,
-    borderRadius: 15,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  closeButtonText: {
-    color: "#ffffff",
-    fontWeight: "bold",
-    fontSize: 16,
+    elevation: 5,
   },
   header: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#333333", // Matches app's title styling
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 20,
-    textAlign: "center",
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#333",
+  },
+  closeButton: {
+    padding: 4,
+  },
+  inputContainer: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#333",
+    marginBottom: 8,
   },
   input: {
-    width: "100%",
-    height: 40,
-    backgroundColor: "#f0f0f0", // Matches app's general background color
+    backgroundColor: "#f5f5f5",
     borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 15,
+    padding: 12,
     fontSize: 16,
-    color: "#333333", // Text matches app's primary text color
+    color: "#333",
   },
   textArea: {
     height: 100,
     textAlignVertical: "top",
   },
   saveButton: {
-    backgroundColor: "#333333", // Matches app's dark gray accent
-    paddingVertical: 12,
+    backgroundColor: "#007AFF",
     borderRadius: 8,
+    padding: 16,
     alignItems: "center",
-    marginTop: 10,
+    marginTop: 8,
   },
   saveButtonText: {
-    color: "#ffffff",
+    color: "#fff",
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: "600",
   },
 });

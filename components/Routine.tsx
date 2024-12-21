@@ -16,101 +16,133 @@ type Props = {
 export default function Routine({ id, title, description, deleteFunction }: Props) {
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
 
-  const toggleMenu = () => setMenuVisible(!menuVisible);
-
-  const editRoutine = () => {
-
-  };
-
   return (
     <View style={styles.routineBox}>
       <TouchableOpacity onPress={() => {console.log("pressed!")}}>
         <View style={styles.header}>
-          <Text style={styles.routineTitle}>
-            {title ? title : "Default Routine Name"}
-          </Text>
-          <TouchableOpacity onPress={toggleMenu} style={styles.menuButton}>
-            <Ionicons name="ellipsis-horizontal" size={20} color="#7f8c8d" />
+          <View style={styles.titleContainer}>
+            <Ionicons name="barbell-outline" size={24} color="#007AFF" />
+            <Text style={styles.routineTitle}>
+              {title ? title : "Default Routine Name"}
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => setMenuVisible(true)} style={styles.menuButton}>
+            <Ionicons name="ellipsis-horizontal" size={20} color="#666" />
           </TouchableOpacity>
         </View>
         <Text style={styles.routineDescription}>
           {description ? description : "Default routine description"}
         </Text>
       </TouchableOpacity>
-      {menuVisible && (
-        <Modal
-          transparent={true}
-          animationType="fade"
-          visible={menuVisible}
-          onRequestClose={toggleMenu}
+
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={menuVisible}
+        onRequestClose={() => setMenuVisible(false)}
+      >
+        <TouchableOpacity 
+          style={styles.overlay} 
+          onPress={() => setMenuVisible(false)}
+          activeOpacity={1}
         >
-          <TouchableOpacity style={styles.overlay} onPress={toggleMenu}>
-            <View style={styles.menu}>
-              <TouchableOpacity onPress={() => console.log("Edit selected")}>
-                <Text style={styles.menuItem}>Edit</Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => deleteFunction(id)}>
-                <Text style={styles.menuItem}>Delete</Text>
-              </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-        </Modal>
-      )}
+          <View style={styles.menu}>
+            <TouchableOpacity 
+              style={styles.menuItem}
+              onPress={() => {
+                console.log("Edit selected");
+                setMenuVisible(false);
+              }}
+            >
+              <Ionicons name="create-outline" size={20} color="#333" />
+              <Text style={styles.menuItemText}>Edit</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.menuItem, styles.deleteItem]}
+              onPress={() => {
+                deleteFunction(id);
+                setMenuVisible(false);
+              }}
+            >
+              <Ionicons name="trash-outline" size={20} color="#ff3b30" />
+              <Text style={[styles.menuItemText, styles.deleteText]}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   routineBox: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "#fff",
     padding: 16,
-    borderRadius: 8,
+    borderRadius: 12,
     marginBottom: 12,
     shadowColor: "#000",
     shadowOpacity: 0.1,
     shadowRadius: 4,
     shadowOffset: { width: 0, height: 2 },
-    elevation: 2, // Android shadow
+    elevation: 2,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 4,
+    marginBottom: 8,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
   },
   routineTitle: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#2c3e50", // Navy for routine titles
+    fontWeight: "600",
+    color: "#333",
+    marginLeft: 12,
   },
   routineDescription: {
     fontSize: 14,
-    color: "#7f8c8d", // Light gray for descriptions
+    color: "#666",
+    lineHeight: 20,
   },
   menuButton: {
     padding: 4,
   },
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark semi-transparent background
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
   },
   menu: {
-    backgroundColor: "#ffffff",
-    padding: 10,
-    borderRadius: 8,
-    width: 150,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    width: 200,
     shadowColor: "#000",
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
     elevation: 5,
   },
   menuItem: {
-    paddingVertical: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  menuItemText: {
     fontSize: 16,
-    color: "#333333",
-    textAlign: "center",
+    color: "#333",
+    marginLeft: 12,
+  },
+  deleteItem: {
+    borderBottomWidth: 0,
+  },
+  deleteText: {
+    color: "#ff3b30",
   },
 });
