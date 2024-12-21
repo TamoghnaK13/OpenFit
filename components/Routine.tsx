@@ -4,22 +4,26 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity, Pressable } from "reac
 import { useState } from 'react';
 import { Ionicons } from "@expo/vector-icons"; // Icon library
 
-import { RoutineProps } from '@/app/(tabs)/routines';
+import RoutineEditor from "./RoutineEditor";
+import { Exercise } from './RoutineEditor';
 
 type Props = {
   id: number;
   title: string;
   description: string;
   deleteFunction: (id: number) => void;
+  updateFunction: (id: number, title: string, description: string, exercises: Exercise[]) => void;
 };
 
-export default function Routine({ id, title, description, deleteFunction }: Props) {
+export default function Routine({ id, title, description, deleteFunction, updateFunction }: Props) {
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
+  const [isEditorVisible, setIsEditorVisible] = useState<boolean>(false);
 
   const toggleMenu = () => setMenuVisible(!menuVisible);
 
   const editRoutine = () => {
-
+    setMenuVisible(false);
+    setIsEditorVisible(true);
   };
 
   return (
@@ -27,14 +31,14 @@ export default function Routine({ id, title, description, deleteFunction }: Prop
       <TouchableOpacity onPress={() => {console.log("pressed!")}}>
         <View style={styles.header}>
           <Text style={styles.routineTitle}>
-            {title ? title : "Default Routine Name"}
+            {title}
           </Text>
           <TouchableOpacity onPress={toggleMenu} style={styles.menuButton}>
             <Ionicons name="ellipsis-horizontal" size={20} color="#7f8c8d" />
           </TouchableOpacity>
         </View>
         <Text style={styles.routineDescription}>
-          {description ? description : "Default routine description"}
+          {description}
         </Text>
       </TouchableOpacity>
       {menuVisible && (
@@ -46,7 +50,7 @@ export default function Routine({ id, title, description, deleteFunction }: Prop
         >
           <TouchableOpacity style={styles.overlay} onPress={toggleMenu}>
             <View style={styles.menu}>
-              <TouchableOpacity onPress={() => console.log("Edit selected")}>
+              <TouchableOpacity onPress={editRoutine}>
                 <Text style={styles.menuItem}>Edit</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => deleteFunction(id)}>
@@ -56,6 +60,17 @@ export default function Routine({ id, title, description, deleteFunction }: Prop
           </TouchableOpacity>
         </Modal>
       )}
+      <RoutineEditor
+        isVisible={isEditorVisible}
+        onClose={() => setIsEditorVisible(false)}
+        onSave={(newTitle, newDescription, exercises) => {
+          updateFunction(id, newTitle, newDescription, exercises);
+          setIsEditorVisible(false);
+        }}
+        title={title}
+        description={description}
+        exercises={[]} // We'll add exercises later
+      />
     </View>
   );
 }

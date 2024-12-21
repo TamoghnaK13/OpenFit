@@ -5,16 +5,18 @@ import { useState } from 'react';
 
 import Routine from '@/components/Routine';
 import RoutineCreator from '@/components/RoutineCreator';
+import { Exercise } from '@/components/RoutineEditor';
 
 export type RoutineProps = {
-  id: number,
-  title: string,
+  id: number;
+  title: string;
   description: string;
+  exercises?: Exercise[];
 }
 
 export default function Routines() {
   const [routines, setRoutines] = useState<RoutineProps[]>([
-    { id: 0, title: "Routine", description: "This is a placeholder routine. Edit or delete it!" },
+    { id: 0, title: "Routine", description: "This is a placeholder routine. Edit or delete it!", exercises: [] },
   ]);
   const [isRoutineCreatorVisible, setIsRoutineCreatorVisible] = useState<boolean>(false);
 
@@ -22,7 +24,8 @@ export default function Routines() {
     const newRoutine = {
       id: id,
       title: title,
-      description: description
+      description: description,
+      exercises: []
     }
 
     console.log(newRoutine);
@@ -42,6 +45,16 @@ export default function Routines() {
     setIsRoutineCreatorVisible(false);
   };
 
+  const updateRoutine = (id: number, title: string, description: string, exercises: any[]) => {
+    setRoutines((prevRoutines) =>
+      prevRoutines.map((routine) =>
+        routine.id === id
+          ? { ...routine, title, description, exercises }
+          : routine
+      )
+    );
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Your Routines</Text>
@@ -49,10 +62,12 @@ export default function Routines() {
       <ScrollView contentContainerStyle={styles.routinesContainer}>
         {routines.map((routine) => (
           <Routine
-            id={routine.id} key={routine.id}
+            id={routine.id}
+            key={routine.id}
             title={routine.title}
             description={routine.description}
-            deleteFunction={deleteRoutine} />
+            deleteFunction={deleteRoutine}
+            updateFunction={updateRoutine} />
         ))}
       </ScrollView>
 
