@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet, Modal, Pressable, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSettings } from '@/contexts/SettingsContext';
+import Dropdown from './Dropdown';
 
 interface SettingsModalProps {
   visible: boolean;
@@ -7,6 +9,13 @@ interface SettingsModalProps {
 }
 
 export default function SettingsModal({ visible, onClose }: SettingsModalProps) {
+  const { useKilograms, toggleWeightUnit } = useSettings();
+
+  const weightUnitOptions = [
+    { label: 'Kilograms (kg)', value: 'kg' },
+    { label: 'Pounds (lbs)', value: 'lbs' },
+  ];
+
   return (
     <Modal
       animationType="fade"
@@ -61,6 +70,16 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
               <Text style={styles.settingButtonText}>Privacy Policy</Text>
               <Ionicons name="chevron-forward" size={20} color="#666" />
             </Pressable>
+          </View>
+
+          <View style={styles.settingSection}>
+            <Text style={styles.sectionTitle}>Preferences</Text>
+            <Dropdown
+              label="Weight Unit"
+              value={useKilograms ? 'kg' : 'lbs'}
+              options={weightUnitOptions}
+              onSelect={(value) => toggleWeightUnit()}
+            />
           </View>
 
           <Pressable style={styles.logoutButton}>
