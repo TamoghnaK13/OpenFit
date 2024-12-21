@@ -4,24 +4,21 @@ import { View, Text, StyleSheet, Modal, TouchableOpacity, Pressable } from "reac
 import { useState } from 'react';
 import { Ionicons } from "@expo/vector-icons"; // Icon library
 
-import RoutineEditor from "./RoutineEditor";
-import { Exercise } from './RoutineEditor';
+import RoutineEditor, { Exercise } from "./RoutineEditor";
 
-type Props = {
+interface Props {
   id: number;
   title: string;
   description: string;
   deleteFunction: (id: number) => void;
   updateFunction: (id: number, title: string, description: string, exercises: Exercise[]) => void;
-};
+}
 
 export default function Routine({ id, title, description, deleteFunction, updateFunction }: Props) {
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
   const [isEditorVisible, setIsEditorVisible] = useState<boolean>(false);
 
-  const toggleMenu = () => setMenuVisible(!menuVisible);
-
-  const editRoutine = () => {
+  const handleEdit = () => {
     setMenuVisible(false);
     setIsEditorVisible(true);
   };
@@ -59,10 +56,7 @@ export default function Routine({ id, title, description, deleteFunction, update
           <View style={styles.menu}>
             <TouchableOpacity 
               style={styles.menuItem}
-              onPress={() => {
-                console.log("Edit selected");
-                setMenuVisible(false);
-              }}
+              onPress={handleEdit}
             >
               <Ionicons name="create-outline" size={20} color="#333" />
               <Text style={styles.menuItemText}>Edit</Text>
@@ -80,6 +74,17 @@ export default function Routine({ id, title, description, deleteFunction, update
           </View>
         </TouchableOpacity>
       </Modal>
+
+      <RoutineEditor
+        isVisible={isEditorVisible}
+        onClose={() => setIsEditorVisible(false)}
+        onSave={(title, description, exercises) => {
+          updateFunction(id, title, description, exercises);
+          setIsEditorVisible(false);
+        }}
+        title={title}
+        description={description}
+      />
     </View>
   );
 }
