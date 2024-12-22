@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 
 interface WeeklyOverviewProps {
   progress: {
@@ -10,27 +11,35 @@ interface WeeklyOverviewProps {
 }
 
 export default function WeeklyOverview({ progress }: WeeklyOverviewProps) {
+  const { colors } = useTheme();
+
   return (
     <View style={styles.weeklySection}>
-      <Text style={styles.sectionTitle}>Weekly Overview</Text>
-      <View style={styles.weeklyCard}>
+      <Text style={[styles.sectionTitle, { color: colors.text }]}>Weekly Overview</Text>
+      <View style={[styles.weeklyCard, { 
+        backgroundColor: colors.surface,
+        shadowColor: colors.text 
+      }]}>
         <View style={styles.weeklyProgressRow}>
-          <Text style={styles.weeklyLabel}>Workout Progress</Text>
-          <Text style={styles.weeklyStats}>
+          <Text style={[styles.weeklyLabel, { color: colors.text }]}>Workout Progress</Text>
+          <Text style={[styles.weeklyStats, { color: colors.text }]}>
             {progress.workoutsCompleted}/{progress.workoutsPlanned}
           </Text>
         </View>
-        <View style={styles.progressBar}>
+        <View style={[styles.progressBar, { backgroundColor: colors.border }]}>
           <View 
             style={[
               styles.progressFill, 
-              { width: `${(progress.workoutsCompleted / progress.workoutsPlanned) * 100}%` }
+              { 
+                width: `${(progress.workoutsCompleted / progress.workoutsPlanned) * 100}%`,
+                backgroundColor: colors.primary 
+              }
             ]} 
           />
         </View>
         <View style={styles.streakContainer}>
-          <Ionicons name="flame" size={20} color="#FF9500" />
-          <Text style={styles.streakText}>
+          <Ionicons name="flame" size={20} color={colors.primary} />
+          <Text style={[styles.streakText, { color: colors.text }]}>
             {progress.currentStreak} Day Streak!
           </Text>
         </View>
@@ -44,10 +53,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   weeklyCard: {
-    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 16,
-    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -61,23 +68,19 @@ const styles = StyleSheet.create({
   },
   weeklyLabel: {
     fontSize: 16,
-    color: "#333",
   },
   weeklyStats: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
   },
   progressBar: {
     height: 8,
-    backgroundColor: "#f0f0f0",
     borderRadius: 4,
     overflow: "hidden",
     marginBottom: 12,
   },
   progressFill: {
     height: "100%",
-    backgroundColor: "#34C759",
     borderRadius: 4,
   },
   streakContainer: {
@@ -88,13 +91,11 @@ const styles = StyleSheet.create({
   },
   streakText: {
     fontSize: 16,
-    color: "#333",
     fontWeight: "500",
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#333",
     marginBottom: 16,
   },
 }); 

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Modal, Pressable, FlatList, TextInput } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 
 // Mock data - replace with actual API call
 const mockPresetRoutines = [
@@ -33,6 +34,7 @@ export default function PresetRoutinesModal({
   onClose, 
   onSelectRoutine 
 }: PresetRoutinesModalProps) {
+  const { colors } = useTheme();
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRoutines, setFilteredRoutines] = useState(mockPresetRoutines);
 
@@ -54,22 +56,22 @@ export default function PresetRoutinesModal({
       onRequestClose={onClose}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
+        <View style={[styles.modalContainer, { backgroundColor: colors.surface }]}>
           <View style={styles.header}>
-            <Text style={styles.headerTitle}>Preset Routines</Text>
+            <Text style={[styles.headerTitle, { color: colors.text }]}>Preset Routines</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
-              <Ionicons name="close" size={24} color="#666" />
+              <Ionicons name="close" size={24} color={colors.textSecondary} />
             </Pressable>
           </View>
 
-          <View style={styles.searchContainer}>
-            <Ionicons name="search" size={20} color="#666" />
+          <View style={[styles.searchContainer, { backgroundColor: colors.background }]}>
+            <Ionicons name="search" size={20} color={colors.textSecondary} />
             <TextInput
-              style={styles.searchInput}
+              style={[styles.searchInput, { color: colors.text }]}
               placeholder="Search routines..."
               value={searchQuery}
               onChangeText={handleSearch}
-              placeholderTextColor="#999"
+              placeholderTextColor={colors.textSecondary}
             />
           </View>
 
@@ -78,14 +80,26 @@ export default function PresetRoutinesModal({
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <Pressable 
-                style={styles.routineItem}
+                style={[styles.routineItem, { 
+                  backgroundColor: colors.surface,
+                  borderColor: colors.border
+                }]}
                 onPress={() => onSelectRoutine(item)}
               >
                 <View style={styles.routineHeader}>
-                  <Text style={styles.routineTitle}>{item.title}</Text>
-                  <Text style={styles.categoryTag}>{item.category}</Text>
+                  <Text style={[styles.routineTitle, { color: colors.text }]}>
+                    {item.title}
+                  </Text>
+                  <Text style={[styles.categoryTag, { 
+                    backgroundColor: `${colors.primary}20`,
+                    color: colors.primary 
+                  }]}>
+                    {item.category}
+                  </Text>
                 </View>
-                <Text style={styles.routineDescription}>{item.description}</Text>
+                <Text style={[styles.routineDescription, { color: colors.textSecondary }]}>
+                  {item.description}
+                </Text>
               </Pressable>
             )}
             contentContainerStyle={styles.listContent}
@@ -106,7 +120,6 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: "90%",
     height: "80%",
-    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 20,
     shadowColor: "#000",
@@ -124,7 +137,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#333",
   },
   closeButton: {
     padding: 4,
@@ -132,7 +144,6 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: "#f5f5f5",
     borderRadius: 8,
     padding: 10,
     marginBottom: 16,
@@ -141,18 +152,16 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     marginLeft: 8,
-    color: "#333",
   },
   listContent: {
     paddingBottom: 20,
   },
   routineItem: {
-    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#eee",
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
-    borderWidth: 1,
-    borderColor: "#eee",
   },
   routineHeader: {
     flexDirection: 'row',
@@ -163,13 +172,10 @@ const styles = StyleSheet.create({
   routineTitle: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
     flex: 1,
   },
   categoryTag: {
     fontSize: 12,
-    color: "#007AFF",
-    backgroundColor: "#007AFF20",
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 4,

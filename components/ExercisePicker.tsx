@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Modal, TextInput, SectionList, Pressable } from "react-native";
 import { useState, useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 
 // This would typically come from your backend/database
 const PRESET_EXERCISES = [
@@ -59,6 +60,7 @@ interface Props {
 
 export default function ExercisePicker({ isVisible, onClose, onSelect }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
+  const { colors } = useTheme();
 
   const filteredSections = useMemo(() => {
     if (!searchQuery) return PRESET_EXERCISES;
@@ -70,6 +72,75 @@ export default function ExercisePicker({ isVisible, onClose, onSelect }: Props) 
       )
     })).filter(section => section.data.length > 0);
   }, [searchQuery]);
+
+  const styles = StyleSheet.create({
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    modalContent: {
+      flex: 1,
+      backgroundColor: colors.background,
+      marginTop: 50,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+    },
+    header: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: 16,
+      backgroundColor: colors.surface,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+    },
+    headerTitle: {
+      fontSize: 20,
+      fontWeight: "600",
+      color: colors.text,
+    },
+    closeButton: {
+      padding: 4,
+    },
+    searchContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: colors.surface,
+      margin: 16,
+      padding: 12,
+      borderRadius: 8,
+      gap: 8,
+    },
+    searchInput: {
+      flex: 1,
+      fontSize: 16,
+      color: colors.text,
+    },
+    sectionHeader: {
+      backgroundColor: colors.background,
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: "600",
+      color: colors.textSecondary,
+    },
+    exerciseItem: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      backgroundColor: colors.surface,
+      padding: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    exerciseName: {
+      fontSize: 16,
+      color: colors.text,
+    },
+  });
 
   return (
     <Modal
@@ -83,18 +154,18 @@ export default function ExercisePicker({ isVisible, onClose, onSelect }: Props) 
           <View style={styles.header}>
             <Text style={styles.headerTitle}>Select Exercise</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
-              <Ionicons name="close" size={24} color="#666" />
+              <Ionicons name="close" size={24} color={colors.textSecondary} />
             </Pressable>
           </View>
 
           <View style={styles.searchContainer}>
-            <Ionicons name="search" size={20} color="#666" />
+            <Ionicons name="search" size={20} color={colors.textSecondary} />
             <TextInput
               style={styles.searchInput}
               placeholder="Search exercises..."
               value={searchQuery}
               onChangeText={setSearchQuery}
-              placeholderTextColor="#999"
+              placeholderTextColor={colors.textSecondary}
             />
           </View>
 
@@ -110,7 +181,7 @@ export default function ExercisePicker({ isVisible, onClose, onSelect }: Props) 
                 }}
               >
                 <Text style={styles.exerciseName}>{item.name}</Text>
-                <Ionicons name="chevron-forward" size={20} color="#666" />
+                <Ionicons name="chevron-forward" size={20} color={colors.textSecondary} />
               </Pressable>
             )}
             renderSectionHeader={({ section: { category } }) => (
@@ -124,73 +195,4 @@ export default function ExercisePicker({ isVisible, onClose, onSelect }: Props) 
       </View>
     </Modal>
   );
-}
-
-const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    flex: 1,
-    backgroundColor: "#f0f0f0",
-    marginTop: 50,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#333",
-  },
-  closeButton: {
-    padding: 4,
-  },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    margin: 16,
-    padding: 12,
-    borderRadius: 8,
-    gap: 8,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color: "#333",
-  },
-  sectionHeader: {
-    backgroundColor: "#f0f0f0",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#666",
-  },
-  exerciseItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  exerciseName: {
-    fontSize: 16,
-    color: "#333",
-  },
-}); 
+} 

@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Modal, Pressable, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 
 interface AchievementsModalProps {
   visible: boolean;
@@ -73,6 +74,8 @@ const mockAchievements: Achievement[] = [
 ];
 
 export default function AchievementsModal({ visible, onClose }: AchievementsModalProps) {
+  const { colors } = useTheme();
+
   const renderAchievement = (achievement: Achievement) => {
     const progressPercentage = (achievement.progress / achievement.total) * 100;
     
@@ -81,35 +84,38 @@ export default function AchievementsModal({ visible, onClose }: AchievementsModa
         key={achievement.id} 
         style={[
           styles.achievementCard,
-          achievement.completed && styles.achievementCompleted
+          { backgroundColor: colors.surface, borderColor: colors.border },
+          achievement.completed && { borderColor: "#FFD700", borderWidth: 2 }
         ]}
       >
         <View style={styles.achievementHeader}>
-          <View style={styles.iconContainer}>
+          <View style={[styles.iconContainer, { backgroundColor: colors.background }]}>
             <Ionicons 
               name={achievementIcons[achievement.icon]} 
               size={24} 
-              color={achievement.completed ? "#FFD700" : "#666"} 
+              color={achievement.completed ? "#FFD700" : colors.textSecondary} 
             />
           </View>
           <View style={styles.achievementInfo}>
-            <Text style={styles.achievementTitle}>{achievement.title}</Text>
-            <Text style={styles.achievementDescription}>
+            <Text style={[styles.achievementTitle, { color: colors.text }]}>
+              {achievement.title}
+            </Text>
+            <Text style={[styles.achievementDescription, { color: colors.textSecondary }]}>
               {achievement.description}
             </Text>
           </View>
         </View>
         
         <View style={styles.progressContainer}>
-          <View style={styles.progressBar}>
+          <View style={[styles.progressBar, { backgroundColor: colors.background }]}>
             <View 
               style={[
                 styles.progressFill,
-                { width: `${progressPercentage}%` }
+                { width: `${progressPercentage}%`, backgroundColor: colors.primary }
               ]} 
             />
           </View>
-          <Text style={styles.progressText}>
+          <Text style={[styles.progressText, { color: colors.textSecondary }]}>
             {achievement.progress}/{achievement.total}
           </Text>
         </View>
@@ -125,11 +131,11 @@ export default function AchievementsModal({ visible, onClose }: AchievementsModa
       onRequestClose={onClose}
     >
       <View style={styles.centeredView}>
-        <View style={styles.modalView}>
+        <View style={[styles.modalView, { backgroundColor: colors.background }]}>
           <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Achievements</Text>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>Achievements</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
-              <Ionicons name="close" size={24} color="#333" />
+              <Ionicons name="close" size={24} color={colors.text} />
             </Pressable>
           </View>
 

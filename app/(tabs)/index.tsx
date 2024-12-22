@@ -1,6 +1,7 @@
 // app/(tabs)/index.tsx
 import { ScrollView, StyleSheet } from "react-native";
 import { useState } from "react";
+import { useTheme } from '@/utils/ThemeContext';
 import WelcomeSection from "../../components/home/WelcomeSection";
 import QuickStartSection from "../../components/home/QuickStartSection";
 import TodayStats from "../../components/home/TodayStats";
@@ -10,6 +11,7 @@ import AchievementsModal from "../../components/AchievementsModal";
 
 export default function Home() {
   const [achievementsVisible, setAchievementsVisible] = useState(false);
+  const { colors } = useTheme();
 
   const todayStats = {
     caloriesBurned: 324,
@@ -24,7 +26,7 @@ export default function Home() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
       <WelcomeSection />
       <QuickStartSection />
       <TodayStats stats={todayStats} />
@@ -42,6 +44,5 @@ export default function Home() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
   },
 });

@@ -3,6 +3,7 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useState } from 'react';
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 
 import Routine from '@/components/Routine';
 import RoutineCreator from '@/components/RoutineCreator';
@@ -17,6 +18,7 @@ export type RoutineProps = {
 }
 
 export default function Routines() {
+  const { colors } = useTheme();
   const [routines, setRoutines] = useState<RoutineProps[]>([
     { id: 0, title: "Routine", description: "This is a placeholder routine. Edit or delete it!", exercises: [] },
   ]);
@@ -30,9 +32,6 @@ export default function Routines() {
       description: description,
       exercises: []
     }
-
-    console.log(newRoutine);
-
     setRoutines((prevRoutines) => [...prevRoutines, newRoutine]);
   };
 
@@ -40,15 +39,7 @@ export default function Routines() {
     setRoutines((prevRoutines) => prevRoutines.filter((routine) => routine.id !== id));
   };
 
-  const showRoutineCreator = () => {
-    setIsRoutineCreatorVisible(true);
-  };
-
-  const hideRoutineCreator = () => {
-    setIsRoutineCreatorVisible(false);
-  };
-
-  const updateRoutine = (id: number, title: string, description: string, exercises: any[]) => {
+  const updateRoutine = (id: number, title: string, description: string, exercises: Exercise[]) => {
     setRoutines((prevRoutines) =>
       prevRoutines.map((routine) =>
         routine.id === id
@@ -59,8 +50,8 @@ export default function Routines() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Your Routines</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.text }]}>Your Routines</Text>
 
       <ScrollView 
         style={styles.routinesContainer}
@@ -77,9 +68,12 @@ export default function Routines() {
         ))}
       </ScrollView>
 
-      <View style={styles.buttonContainer}>
+      <View style={[styles.buttonContainer, { 
+        backgroundColor: colors.background,
+        borderTopColor: colors.border
+      }]}>
         <TouchableOpacity 
-          style={[styles.button, styles.searchButton]}
+          style={[styles.button, { backgroundColor: colors.surface }]}
           onPress={() => setIsPresetModalVisible(true)}
         >
           <Ionicons name="search" size={20} color="#fff" />
@@ -87,10 +81,10 @@ export default function Routines() {
         </TouchableOpacity>
 
         <TouchableOpacity 
-          style={[styles.button, styles.addButton]}
+          style={[styles.button, { backgroundColor: colors.primary }]}
           onPress={() => setIsRoutineCreatorVisible(true)}
         >
-          <Ionicons name="add" size={20} color="#fff" />
+          <Ionicons name="add" size={20} color={colors.text} />
           <Text style={styles.buttonText}>Create Routine</Text>
         </TouchableOpacity>
       </View>
@@ -123,12 +117,10 @@ export default function Routines() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
   },
   title: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#333",
     padding: 16,
   },
   routinesContainer: {
@@ -136,7 +128,7 @@ const styles = StyleSheet.create({
   },
   routinesContent: {
     padding: 16,
-    paddingBottom: 100, // Extra padding for buttons
+    paddingBottom: 100,
   },
   buttonContainer: {
     position: 'absolute',
@@ -145,9 +137,7 @@ const styles = StyleSheet.create({
     right: 0,
     flexDirection: 'row',
     padding: 16,
-    backgroundColor: '#f0f0f0',
     borderTopWidth: 1,
-    borderTopColor: '#e0e0e0',
   },
   button: {
     flex: 1,
@@ -158,17 +148,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: 6,
   },
-  searchButton: {
-    backgroundColor: '#666',
-  },
-  addButton: {
-    backgroundColor: '#007AFF',
-  },
   buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
     marginLeft: 8,
-  },
+  }
 });
-

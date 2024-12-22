@@ -2,12 +2,13 @@
 import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 import SettingsModal from "../../components/SettingsModal";
 import AchievementsModal from "../../components/AchievementsModal";
 import ProgressModal from "../../components/ProgressModal";
 
 export default function Profile() {
-  // This would normally come from your user state/context
+  const { colors } = useTheme();
   const mockUser = {
     name: "John Doe",
     workoutsCompleted: 47,
@@ -20,60 +21,64 @@ export default function Profile() {
   const [progressVisible, setProgressVisible] = useState(false);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, { backgroundColor: colors.background }]}>
       {/* Profile Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, { backgroundColor: colors.surface }]}>
         <View style={styles.profileImageContainer}>
           <Image
             source={{ uri: "https://via.placeholder.com/150" }}
             style={styles.profileImage}
           />
-          <Pressable style={styles.editButton}>
+          <Pressable style={[styles.editButton, { backgroundColor: colors.primary }]}>
             <Ionicons name="pencil" size={16} color="#fff" />
           </Pressable>
         </View>
-        <Text style={styles.name}>{mockUser.name}</Text>
-        <Text style={styles.memberSince}>Member since {mockUser.memberSince}</Text>
+        <Text style={[styles.name, { color: colors.text }]}>{mockUser.name}</Text>
+        <Text style={[styles.memberSince, { color: colors.textSecondary }]}>
+          Member since {mockUser.memberSince}
+        </Text>
       </View>
 
       {/* Stats Section */}
-      <View style={styles.statsContainer}>
+      <View style={[styles.statsContainer, { backgroundColor: colors.surface }]}>
         <View style={styles.statBox}>
-          <Text style={styles.statNumber}>{mockUser.workoutsCompleted}</Text>
-          <Text style={styles.statLabel}>Workouts</Text>
+          <Text style={[styles.statNumber, { color: colors.primary }]}>
+            {mockUser.workoutsCompleted}
+          </Text>
+          <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Workouts</Text>
         </View>
         <View style={styles.statBox}>
-          <Text style={styles.statNumber}>{mockUser.streak}</Text>
-          <Text style={styles.statLabel}>Day Streak</Text>
+          <Text style={[styles.statNumber, { color: colors.primary }]}>{mockUser.streak}</Text>
+          <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Day Streak</Text>
         </View>
       </View>
 
       {/* Quick Actions */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Quick Actions</Text>
+      <View style={[styles.section, { backgroundColor: colors.surface }]}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>Quick Actions</Text>
         <Pressable 
-          style={styles.actionButton}
+          style={[styles.actionButton, { borderBottomColor: colors.border }]}
           onPress={() => setSettingsVisible(true)}
         >
-          <Ionicons name="settings-outline" size={24} color="#333" />
-          <Text style={styles.actionButtonText}>Settings</Text>
-          <Ionicons name="chevron-forward" size={24} color="#333" />
+          <Ionicons name="settings-outline" size={24} color={colors.text} />
+          <Text style={[styles.actionButtonText, { color: colors.text }]}>Settings</Text>
+          <Ionicons name="chevron-forward" size={24} color={colors.text} />
         </Pressable>
         <Pressable 
-          style={styles.actionButton}
+          style={[styles.actionButton, { borderBottomColor: colors.border }]}
           onPress={() => setAchievementsVisible(true)}
         >
-          <Ionicons name="trophy-outline" size={24} color="#333" />
-          <Text style={styles.actionButtonText}>Achievements</Text>
-          <Ionicons name="chevron-forward" size={24} color="#333" />
+          <Ionicons name="trophy-outline" size={24} color={colors.text} />
+          <Text style={[styles.actionButtonText, { color: colors.text }]}>Achievements</Text>
+          <Ionicons name="chevron-forward" size={24} color={colors.text} />
         </Pressable>
         <Pressable 
-          style={styles.actionButton}
+          style={[styles.actionButton, { borderBottomColor: colors.border }]}
           onPress={() => setProgressVisible(true)}
         >
-          <Ionicons name="stats-chart-outline" size={24} color="#333" />
-          <Text style={styles.actionButtonText}>Progress</Text>
-          <Ionicons name="chevron-forward" size={24} color="#333" />
+          <Ionicons name="stats-chart-outline" size={24} color={colors.text} />
+          <Text style={[styles.actionButtonText, { color: colors.text }]}>Progress</Text>
+          <Ionicons name="chevron-forward" size={24} color={colors.text} />
         </Pressable>
       </View>
 
@@ -96,12 +101,10 @@ export default function Profile() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
   },
   header: {
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#fff",
   },
   profileImageContainer: {
     position: "relative",
@@ -116,7 +119,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     bottom: 0,
-    backgroundColor: "#007AFF",
     borderRadius: 15,
     width: 30,
     height: 30,
@@ -126,18 +128,15 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
   },
   memberSince: {
     fontSize: 16,
-    color: "#666",
     marginTop: 5,
   },
   statsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     padding: 20,
-    backgroundColor: "#fff",
     marginTop: 10,
   },
   statBox: {
@@ -146,22 +145,18 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#007AFF",
   },
   statLabel: {
     fontSize: 14,
-    color: "#666",
     marginTop: 5,
   },
   section: {
-    backgroundColor: "#fff",
     marginTop: 10,
     padding: 20,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
     marginBottom: 15,
   },
   actionButton: {
@@ -169,12 +164,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
   },
   actionButtonText: {
     flex: 1,
     fontSize: 16,
-    color: "#333",
     marginLeft: 15,
   },
 });

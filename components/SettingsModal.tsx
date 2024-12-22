@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, Modal, Pressable, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useSettings } from '@/contexts/SettingsContext';
-import Dropdown from './Dropdown';
+import { useTheme } from '../utils/ThemeContext';
 
 interface SettingsModalProps {
   visible: boolean;
@@ -9,12 +8,83 @@ interface SettingsModalProps {
 }
 
 export default function SettingsModal({ visible, onClose }: SettingsModalProps) {
-  const { useKilograms, toggleWeightUnit } = useSettings();
+  const { theme, colors, toggleTheme } = useTheme();
 
-  const weightUnitOptions = [
-    { label: 'Kilograms (kg)', value: 'kg' },
-    { label: 'Pounds (lbs)', value: 'lbs' },
-  ];
+  const styles = StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    modalView: {
+      marginTop: 50,
+      backgroundColor: colors.background,
+      height: "100%",
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      padding: 20,
+    },
+    modalHeader: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 20,
+    },
+    modalTitle: {
+      fontSize: 24,
+      fontWeight: "bold",
+      color: colors.text,
+    },
+    closeButton: {
+      padding: 5,
+    },
+    settingSection: {
+      backgroundColor: colors.surface,
+      borderRadius: 10,
+      padding: 15,
+      marginBottom: 20,
+    },
+    sectionTitle: {
+      fontSize: 16,
+      fontWeight: "600",
+      color: colors.text,
+      marginBottom: 15,
+    },
+    settingItem: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingVertical: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    settingLabel: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    settingButton: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    settingButtonText: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    logoutButton: {
+      backgroundColor: colors.error,
+      borderRadius: 10,
+      padding: 15,
+      alignItems: "center",
+    },
+    logoutButtonText: {
+      color: "#fff",
+      fontSize: 16,
+      fontWeight: "600",
+    },
+  });
 
   return (
     <Modal
@@ -28,8 +98,19 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Settings</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
-              <Ionicons name="close" size={24} color="#333" />
+              <Ionicons name="close" size={24} color={colors.text} />
             </Pressable>
+          </View>
+
+          <View style={styles.settingSection}>
+            <Text style={styles.sectionTitle}>Appearance</Text>
+            <View style={styles.settingItem}>
+              <Text style={styles.settingLabel}>Dark Theme</Text>
+              <Switch
+                value={theme === 'dark'}
+                onValueChange={toggleTheme}
+              />
+            </View>
           </View>
 
           <View style={styles.settingSection}>
@@ -48,15 +129,15 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
             <Text style={styles.sectionTitle}>Account</Text>
             <Pressable style={styles.settingButton}>
               <Text style={styles.settingButtonText}>Edit Profile</Text>
-              <Ionicons name="chevron-forward" size={20} color="#666" />
+              <Ionicons name="chevron-forward" size={20} color={colors.text} />
             </Pressable>
             <Pressable style={styles.settingButton}>
               <Text style={styles.settingButtonText}>Change Password</Text>
-              <Ionicons name="chevron-forward" size={20} color="#666" />
+              <Ionicons name="chevron-forward" size={20} color={colors.text} />
             </Pressable>
             <Pressable style={styles.settingButton}>
               <Text style={styles.settingButtonText}>Privacy Settings</Text>
-              <Ionicons name="chevron-forward" size={20} color="#666" />
+              <Ionicons name="chevron-forward" size={20} color={colors.text} />
             </Pressable>
           </View>
 
@@ -64,22 +145,12 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
             <Text style={styles.sectionTitle}>About</Text>
             <Pressable style={styles.settingButton}>
               <Text style={styles.settingButtonText}>Terms of Service</Text>
-              <Ionicons name="chevron-forward" size={20} color="#666" />
+              <Ionicons name="chevron-forward" size={20} color={colors.text} />
             </Pressable>
             <Pressable style={styles.settingButton}>
               <Text style={styles.settingButtonText}>Privacy Policy</Text>
-              <Ionicons name="chevron-forward" size={20} color="#666" />
+              <Ionicons name="chevron-forward" size={20} color={colors.text} />
             </Pressable>
-          </View>
-
-          <View style={styles.settingSection}>
-            <Text style={styles.sectionTitle}>Preferences</Text>
-            <Dropdown
-              label="Weight Unit"
-              value={useKilograms ? 'kg' : 'lbs'}
-              options={weightUnitOptions}
-              onSelect={(value) => toggleWeightUnit()}
-            />
           </View>
 
           <Pressable style={styles.logoutButton}>
@@ -89,80 +160,4 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
       </View>
     </Modal>
   );
-}
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalView: {
-    marginTop: 50,
-    backgroundColor: "#f0f0f0",
-    height: "100%",
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    padding: 20,
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  modalTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  closeButton: {
-    padding: 5,
-  },
-  settingSection: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
-    marginBottom: 15,
-  },
-  settingItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  settingLabel: {
-    fontSize: 16,
-    color: "#333",
-  },
-  settingButton: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-  },
-  settingButtonText: {
-    fontSize: 16,
-    color: "#333",
-  },
-  logoutButton: {
-    backgroundColor: "#ff3b30",
-    borderRadius: 10,
-    padding: 15,
-    alignItems: "center",
-  },
-  logoutButtonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
-  },
-}); 
+} 

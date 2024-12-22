@@ -3,6 +3,7 @@
 import { View, Text, StyleSheet, Modal, TouchableOpacity, Pressable } from "react-native";
 import { useState } from 'react';
 import { Ionicons } from "@expo/vector-icons"; // Icon library
+import { useTheme } from '@/utils/ThemeContext';
 
 import RoutineEditor, { Exercise } from "./RoutineEditor";
 
@@ -15,6 +16,7 @@ interface Props {
 }
 
 export default function Routine({ id, title, description, deleteFunction, updateFunction }: Props) {
+  const { colors } = useTheme();
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
   const [isEditorVisible, setIsEditorVisible] = useState<boolean>(false);
 
@@ -24,20 +26,20 @@ export default function Routine({ id, title, description, deleteFunction, update
   };
 
   return (
-    <View style={styles.routineBox}>
+    <View style={[styles.routineBox, { backgroundColor: colors.surface }]}>
       <TouchableOpacity onPress={() => {console.log("pressed!")}}>
         <View style={styles.header}>
           <View style={styles.titleContainer}>
-            <Ionicons name="barbell-outline" size={24} color="#007AFF" />
-            <Text style={styles.routineTitle}>
+            <Ionicons name="barbell-outline" size={24} color={colors.primary} />
+            <Text style={[styles.routineTitle, { color: colors.text }]}>
               {title ? title : "Default Routine Name"}
             </Text>
           </View>
           <TouchableOpacity onPress={() => setMenuVisible(true)} style={styles.menuButton}>
-            <Ionicons name="ellipsis-horizontal" size={20} color="#666" />
+            <Ionicons name="ellipsis-horizontal" size={20} color={colors.textSecondary} />
           </TouchableOpacity>
         </View>
-        <Text style={styles.routineDescription}>
+        <Text style={[styles.routineDescription, { color: colors.textSecondary }]}>
           {description}
         </Text>
       </TouchableOpacity>
@@ -53,13 +55,13 @@ export default function Routine({ id, title, description, deleteFunction, update
           onPress={() => setMenuVisible(false)}
           activeOpacity={1}
         >
-          <View style={styles.menu}>
+          <View style={[styles.menu, { backgroundColor: colors.surface }]}>
             <TouchableOpacity 
-              style={styles.menuItem}
+              style={[styles.menuItem, { borderBottomColor: colors.border }]}
               onPress={handleEdit}
             >
-              <Ionicons name="create-outline" size={20} color="#333" />
-              <Text style={styles.menuItemText}>Edit</Text>
+              <Ionicons name="create-outline" size={20} color={colors.text} />
+              <Text style={[styles.menuItemText, { color: colors.text }]}>Edit</Text>
             </TouchableOpacity>
             <TouchableOpacity 
               style={[styles.menuItem, styles.deleteItem]}
@@ -68,8 +70,8 @@ export default function Routine({ id, title, description, deleteFunction, update
                 setMenuVisible(false);
               }}
             >
-              <Ionicons name="trash-outline" size={20} color="#ff3b30" />
-              <Text style={[styles.menuItemText, styles.deleteText]}>Delete</Text>
+              <Ionicons name="trash-outline" size={20} color={colors.error} />
+              <Text style={[styles.menuItemText, { color: colors.error }]}>Delete</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
@@ -91,7 +93,6 @@ export default function Routine({ id, title, description, deleteFunction, update
 
 const styles = StyleSheet.create({
   routineBox: {
-    backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
@@ -115,12 +116,10 @@ const styles = StyleSheet.create({
   routineTitle: {
     fontSize: 18,
     fontWeight: "600",
-    color: "#333",
     marginLeft: 12,
   },
   routineDescription: {
     fontSize: 14,
-    color: "#666",
     lineHeight: 20,
   },
   menuButton: {
@@ -133,7 +132,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   menu: {
-    backgroundColor: "#fff",
     borderRadius: 12,
     width: 200,
     shadowColor: "#000",
@@ -147,18 +145,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 16,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
   },
   menuItemText: {
     fontSize: 16,
-    color: "#333",
     marginLeft: 12,
   },
   deleteItem: {
     borderBottomWidth: 0,
   },
-  deleteText: {
-    color: "#ff3b30",
-  },
 });
-

@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 
 interface TodayStatsProps {
   stats: {
@@ -10,27 +11,32 @@ interface TodayStatsProps {
 }
 
 export default function TodayStats({ stats }: TodayStatsProps) {
+  const { colors } = useTheme();
+  
   return (
     <View style={styles.statsSection}>
-      <Text style={styles.sectionTitle}>Today's Progress</Text>
+      <Text style={[styles.sectionTitle, { color: colors.text }]}>Today's Progress</Text>
       <View style={styles.statsGrid}>
         <StatCard 
           icon="flame" 
           iconColor="#FF9500" 
           value={stats.caloriesBurned} 
-          label="Calories" 
+          label="Calories"
+          colors={colors}
         />
         <StatCard 
           icon="time" 
-          iconColor="#007AFF" 
+          iconColor={colors.primary}
           value={stats.minutesWorked} 
-          label="Minutes" 
+          label="Minutes"
+          colors={colors}
         />
         <StatCard 
           icon="checkmark-circle" 
           iconColor="#34C759" 
           value={stats.workoutsCompleted} 
-          label="Workouts" 
+          label="Workouts"
+          colors={colors}
         />
       </View>
     </View>
@@ -42,14 +48,15 @@ interface StatCardProps {
   iconColor: string;
   value: number;
   label: string;
+  colors: any;
 }
 
-function StatCard({ icon, iconColor, value, label }: StatCardProps) {
+function StatCard({ icon, iconColor, value, label, colors }: StatCardProps) {
   return (
-    <View style={styles.statCard}>
+    <View style={[styles.statCard, { backgroundColor: colors.surface }]}>
       <Ionicons name={icon} size={24} color={iconColor} />
-      <Text style={styles.statNumber}>{value}</Text>
-      <Text style={styles.statLabel}>{label}</Text>
+      <Text style={[styles.statNumber, { color: colors.text }]}>{value}</Text>
+      <Text style={[styles.statLabel, { color: colors.textSecondary }]}>{label}</Text>
     </View>
   );
 }
@@ -61,7 +68,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#333",
     marginBottom: 16,
   },
   statsGrid: {
@@ -69,7 +75,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   statCard: {
-    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 16,
     alignItems: "center",
@@ -83,12 +88,10 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333",
     marginTop: 8,
   },
   statLabel: {
     fontSize: 12,
-    color: "#666",
     marginTop: 4,
   },
 }); 
