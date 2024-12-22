@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Modal, TextInput, SectionList, Pressable } from "react-native";
 import { useState, useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // This would typically come from your backend/database
 const PRESET_EXERCISES = [

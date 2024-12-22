@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function Workout() {
   const { colors } = useTheme();

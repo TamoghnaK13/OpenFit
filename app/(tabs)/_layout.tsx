@@ -1,7 +1,7 @@
 // app/(tabs)/_layout.tsx
 import { Tabs } from "expo-router";
 import { Ionicons, Foundation } from "@expo/vector-icons";
-import { useTheme } from '../../utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export default function TabsLayout() {
   const { colors } = useTheme();

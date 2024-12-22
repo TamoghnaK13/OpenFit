@@ -2,7 +2,7 @@
 import { View, Text, StyleSheet, Image, ScrollView, Pressable } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import SettingsModal from "../../components/SettingsModal";
 import AchievementsModal from "../../components/AchievementsModal";
 import ProgressModal from "../../components/ProgressModal";

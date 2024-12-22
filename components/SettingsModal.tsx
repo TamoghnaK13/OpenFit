@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Modal, Pressable, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from '../utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface SettingsModalProps {
   visible: boolean;

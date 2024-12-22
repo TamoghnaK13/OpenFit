@@ -3,7 +3,7 @@
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { useState } from 'react';
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 import Routine from '@/components/Routine';
 import RoutineCreator from '@/components/RoutineCreator';

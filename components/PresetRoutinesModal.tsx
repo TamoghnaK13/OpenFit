@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Modal, Pressable, FlatList, TextInput } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Mock data - replace with actual API call
 const mockPresetRoutines = [

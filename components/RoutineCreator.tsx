@@ -3,7 +3,7 @@
 import { View, Text, StyleSheet, Pressable, Modal, TextInput } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type Props = {
   isVisible: boolean;

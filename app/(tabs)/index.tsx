@@ -1,7 +1,7 @@
 // app/(tabs)/index.tsx
 import { ScrollView, StyleSheet } from "react-native";
 import { useState } from "react";
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import WelcomeSection from "../../components/home/WelcomeSection";
 import QuickStartSection from "../../components/home/QuickStartSection";
 import TodayStats from "../../components/home/TodayStats";

@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import AddFriendModal from "@/components/AddFriendModal";
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Mock data
 const mockFriends = [

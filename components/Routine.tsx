@@ -3,7 +3,7 @@
 import { View, Text, StyleSheet, Modal, TouchableOpacity, Pressable } from "react-native";
 import { useState } from 'react';
 import { Ionicons } from "@expo/vector-icons"; // Icon library
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 import RoutineEditor, { Exercise } from "./RoutineEditor";
 
