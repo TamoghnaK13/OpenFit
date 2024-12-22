@@ -1,10 +1,13 @@
 import { View, Text, StyleSheet } from "react-native";
+import { useTheme } from '@/utils/ThemeContext';
 
 export default function WelcomeSection() {
+  const { colors } = useTheme();
+  
   return (
-    <View style={styles.welcomeSection}>
-      <Text style={styles.welcomeText}>Welcome back!</Text>
-      <Text style={styles.dateText}>
+    <View style={[styles.welcomeSection, { backgroundColor: colors.surface }]}>
+      <Text style={[styles.welcomeText, { color: colors.text }]}>Welcome back!</Text>
+      <Text style={[styles.dateText, { color: colors.textSecondary }]}>
         {new Date().toLocaleDateString('en-US', { 
           weekday: 'long', 
           month: 'long', 
@@ -18,16 +21,13 @@ export default function WelcomeSection() {
 const styles = StyleSheet.create({
   welcomeSection: {
     padding: 20,
-    backgroundColor: "#fff",
   },
   welcomeText: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#333",
   },
   dateText: {
     fontSize: 16,
-    color: "#666",
     marginTop: 4,
   },
 }); 

@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, Modal, TextInput, ScrollView, Pressable } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 import ExercisePicker from "./ExercisePicker";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Animated from 'react-native-reanimated';
-import { useSettings } from '@/contexts/SettingsContext';
 
 export interface Set {
   id: number;
@@ -36,13 +36,13 @@ export default function RoutineEditor({
   description: initialDescription = "",
   exercises: initialExercises = []
 }: Props) {
+  const { colors } = useTheme();
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
   const [exercises, setExercises] = useState<Exercise[]>(initialExercises);
   const [isExercisePickerVisible, setIsExercisePickerVisible] = useState(false);
   const [editingExerciseIndex, setEditingExerciseIndex] = useState<number | null>(null);
   const [expandedExercises, setExpandedExercises] = useState<number[]>([]);
-  const { convertWeight } = useSettings();
 
   const handleSave = () => {
     if (!title.trim()) {
@@ -84,51 +84,66 @@ export default function RoutineEditor({
     >
       <GestureHandlerRootView style={{ flex: 1 }}>
         <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            {/* Header */}
-            <View style={styles.header}>
+          <View style={[styles.modalContent, { backgroundColor: colors.background }]}>
+            <View style={[styles.header, { 
+              backgroundColor: colors.surface,
+              borderBottomColor: colors.border 
+            }]}>
               <Pressable onPress={onClose} style={styles.closeButton}>
-                <Ionicons name="close" size={24} color="#666" />
+                <Ionicons name="close" size={24} color={colors.textSecondary} />
               </Pressable>
-              <Text style={styles.headerTitle}>Edit Routine</Text>
-              <Pressable onPress={handleSave} style={styles.saveButton}>
+              <Text style={[styles.headerTitle, { color: colors.text }]}>Edit Routine</Text>
+              <Pressable 
+                onPress={handleSave} 
+                style={[styles.saveButton, { backgroundColor: colors.primary }]}
+              >
                 <Text style={styles.saveButtonText}>Save</Text>
               </Pressable>
             </View>
 
             <ScrollView style={styles.scrollContent}>
-              {/* Basic Info Section */}
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Basic Information</Text>
+              <View style={[styles.section, { backgroundColor: colors.surface }]}>
+                <Text style={[styles.sectionTitle, { color: colors.text }]}>Basic Information</Text>
                 <TextInput
-                  style={styles.titleInput}
+                  style={[styles.titleInput, { 
+                    backgroundColor: colors.background,
+                    color: colors.text 
+                  }]}
                   placeholder="Routine Name"
                   value={title}
                   onChangeText={setTitle}
-                  placeholderTextColor="#999"
+                  placeholderTextColor={colors.textSecondary}
                 />
                 <TextInput
-                  style={styles.descriptionInput}
+                  style={[styles.descriptionInput, { 
+                    backgroundColor: colors.background,
+                    color: colors.text 
+                  }]}
                   placeholder="Description (optional)"
                   value={description}
                   onChangeText={setDescription}
                   multiline
-                  placeholderTextColor="#999"
+                  placeholderTextColor={colors.textSecondary}
                 />
               </View>
 
               {/* Exercises Section */}
-              <View style={styles.section}>
+              <View style={[styles.section, { backgroundColor: colors.surface }]}>
                 <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Exercises</Text>
+                  <Text style={[styles.sectionTitle, { color: colors.text }]}>Exercises</Text>
                   <Pressable onPress={addExercise} style={styles.addButton}>
-                    <Ionicons name="add-circle" size={24} color="#007AFF" />
-                    <Text style={styles.addButtonText}>Add Exercise</Text>
+                    <Ionicons name="add-circle" size={24} color={colors.primary} />
+                    <Text style={[styles.addButtonText, { color: colors.primary }]}>
+                      Add Exercise
+                    </Text>
                   </Pressable>
                 </View>
 
                 {exercises.map((exercise, index) => (
-                  <View key={exercise.id} style={styles.exerciseCard}>
+                  <View key={exercise.id} style={[styles.exerciseCard, { 
+                    backgroundColor: colors.surface,
+                    borderColor: colors.border 
+                  }]}>
                     <View style={styles.exerciseHeader}>
                       <Text style={styles.exerciseNumber}>#{index + 1}</Text>
                       <Pressable 
@@ -204,9 +219,7 @@ export default function RoutineEditor({
                                   </View>
                                   <Text style={styles.inputDivider}>×</Text>
                                   <View style={styles.inputGroup}>
-                                    <Text style={styles.inputLabel}>
-                                      Weight {convertWeight(set.weight)}
-                                    </Text>
+                                    <Text style={styles.inputLabel}>Weight (kg)</Text>
                                     <TextInput
                                       style={styles.numberInput}
                                       value={set.weight.toString()}

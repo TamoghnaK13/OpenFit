@@ -3,6 +3,7 @@
 import { View, Text, StyleSheet, Pressable, Modal, TextInput } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 
 type Props = {
   isVisible: boolean;
@@ -13,6 +14,7 @@ type Props = {
 export default function RoutineCreator({ isVisible, onClose, onSave }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const { colors } = useTheme();
 
   const handleSave = () => {
     if (title.trim() && description.trim()) {
@@ -28,39 +30,48 @@ export default function RoutineCreator({ isVisible, onClose, onSave }: Props) {
   return (
     <Modal animationType="fade" transparent={true} visible={isVisible}>
       <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
+        <View style={[styles.modalContainer, { backgroundColor: colors.surface }]}>
           <View style={styles.header}>
-            <Text style={styles.headerTitle}>Create Routine</Text>
+            <Text style={[styles.headerTitle, { color: colors.text }]}>Create Routine</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
-              <Ionicons name="close" size={24} color="#666" />
+              <Ionicons name="close" size={24} color={colors.textSecondary} />
             </Pressable>
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Routine Name</Text>
+            <Text style={[styles.label, { color: colors.text }]}>Routine Name</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { 
+                backgroundColor: colors.background,
+                color: colors.text
+              }]}
               placeholder="Enter routine name"
               value={title}
               onChangeText={setTitle}
-              placeholderTextColor="#999"
+              placeholderTextColor={colors.textSecondary}
             />
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Description</Text>
+            <Text style={[styles.label, { color: colors.text }]}>Description</Text>
             <TextInput
-              style={[styles.input, styles.textArea]}
+              style={[styles.input, styles.textArea, { 
+                backgroundColor: colors.background,
+                color: colors.text
+              }]}
               placeholder="Describe your routine"
               value={description}
               onChangeText={setDescription}
               multiline={true}
               numberOfLines={4}
-              placeholderTextColor="#999"
+              placeholderTextColor={colors.textSecondary}
             />
           </View>
 
-          <Pressable onPress={handleSave} style={styles.saveButton}>
+          <Pressable 
+            onPress={handleSave} 
+            style={[styles.saveButton, { backgroundColor: colors.primary }]}
+          >
             <Text style={styles.saveButtonText}>Create Routine</Text>
           </Pressable>
         </View>
@@ -78,7 +89,6 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: "90%",
-    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 20,
     shadowColor: "#000",
@@ -96,7 +106,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#333",
   },
   closeButton: {
     padding: 4,
@@ -107,22 +116,18 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: "500",
-    color: "#333",
     marginBottom: 8,
   },
   input: {
-    backgroundColor: "#f5f5f5",
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    color: "#333",
   },
   textArea: {
     height: 100,
     textAlignVertical: "top",
   },
   saveButton: {
-    backgroundColor: "#007AFF",
     borderRadius: 8,
     padding: 16,
     alignItems: "center",

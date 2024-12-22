@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Modal, ScrollView, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from '@/utils/ThemeContext';
 
 interface ProgressModalProps {
   visible: boolean;
@@ -32,6 +33,8 @@ const improvements = [
 ];
 
 export default function ProgressModal({ visible, onClose }: ProgressModalProps) {
+  const { colors } = useTheme();
+
   return (
     <Modal
       animationType="fade"
@@ -40,53 +43,56 @@ export default function ProgressModal({ visible, onClose }: ProgressModalProps) 
       onRequestClose={onClose}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Progress</Text>
+        <View style={[styles.modalContainer, { backgroundColor: colors.background }]}>
+          <View style={[styles.modalHeader, { 
+            backgroundColor: colors.surface,
+            borderBottomColor: colors.border 
+          }]}>
+            <Text style={[styles.modalTitle, { color: colors.text }]}>Progress</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
-              <Ionicons name="close" size={24} color="#666" />
+              <Ionicons name="close" size={24} color={colors.text} />
             </Pressable>
           </View>
 
           <ScrollView style={styles.content}>
             {/* Weekly Stats */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>This Week</Text>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>This Week</Text>
               <View style={styles.statsGrid}>
-                <View style={styles.statCard}>
-                  <Ionicons name="barbell" size={24} color="#007AFF" />
-                  <Text style={styles.statValue}>{weeklyStats.totalWeight}</Text>
-                  <Text style={styles.statLabel}>Total Weight</Text>
+                <View style={[styles.statCard, { backgroundColor: colors.surface }]}>
+                  <Ionicons name="barbell" size={24} color={colors.primary} />
+                  <Text style={[styles.statValue, { color: colors.text }]}>{weeklyStats.totalWeight}</Text>
+                  <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Total Weight</Text>
                 </View>
-                <View style={styles.statCard}>
+                <View style={[styles.statCard, { backgroundColor: colors.surface }]}>
                   <Ionicons name="time" size={24} color="#FF9500" />
-                  <Text style={styles.statValue}>{weeklyStats.timeSpent}</Text>
-                  <Text style={styles.statLabel}>Time Spent</Text>
+                  <Text style={[styles.statValue, { color: colors.text }]}>{weeklyStats.timeSpent}</Text>
+                  <Text style={[styles.statLabel, { color: colors.textSecondary }]}>Time Spent</Text>
                 </View>
-                <View style={styles.statCard}>
+                <View style={[styles.statCard, { backgroundColor: colors.surface }]}>
                   <Ionicons name="trophy" size={24} color="#34C759" />
-                  <Text style={styles.statValue}>{weeklyStats.personalRecords}</Text>
-                  <Text style={styles.statLabel}>New PRs</Text>
+                  <Text style={[styles.statValue, { color: colors.text }]}>{weeklyStats.personalRecords}</Text>
+                  <Text style={[styles.statLabel, { color: colors.textSecondary }]}>New PRs</Text>
                 </View>
               </View>
             </View>
 
             {/* Recent Improvements */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Recent Improvements</Text>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>Recent Improvements</Text>
               {improvements.map((item, index) => (
-                <View key={index} style={styles.improvementCard}>
+                <View key={index} style={[styles.improvementCard, { backgroundColor: colors.surface }]}>
                   <View style={styles.improvementHeader}>
-                    <Text style={styles.exerciseName}>{item.exercise}</Text>
-                    <View style={styles.badge}>
+                    <Text style={[styles.exerciseName, { color: colors.text }]}>{item.exercise}</Text>
+                    <View style={[styles.badge, { backgroundColor: colors.primary }]}>
                       <Text style={styles.badgeText}>{item.improvement}</Text>
                     </View>
                   </View>
                   <View style={styles.improvementDetails}>
-                    <Text style={styles.detailText}>
+                    <Text style={[styles.detailText, { color: colors.textSecondary }]}>
                       Previous: {item.previous} → Current: {item.current}
                     </Text>
-                    <Text style={styles.dateText}>{item.date}</Text>
+                    <Text style={[styles.dateText, { color: colors.textSecondary }]}>{item.date}</Text>
                   </View>
                 </View>
               ))}
@@ -94,16 +100,20 @@ export default function ProgressModal({ visible, onClose }: ProgressModalProps) 
 
             {/* Charts */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Weight Lifted Trend</Text>
-              <View style={styles.chartPlaceholder}>
-                <Text style={styles.placeholderText}>Chart coming soon...</Text>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>Weight Lifted Trend</Text>
+              <View style={[styles.chartPlaceholder, { backgroundColor: colors.surface }]}>
+                <Text style={[styles.placeholderText, { color: colors.textSecondary }]}>
+                  Chart coming soon...
+                </Text>
               </View>
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Bodyweight Progress</Text>
-              <View style={styles.chartPlaceholder}>
-                <Text style={styles.placeholderText}>Graph coming soon...</Text>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>Bodyweight Progress</Text>
+              <View style={[styles.chartPlaceholder, { backgroundColor: colors.surface }]}>
+                <Text style={[styles.placeholderText, { color: colors.textSecondary }]}>
+                  Graph coming soon...
+                </Text>
               </View>
             </View>
           </ScrollView>
@@ -121,21 +131,17 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: "100%",
     height: "100%",
-    backgroundColor: "#f0f0f0",
   },
   modalHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#fff",
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#333",
   },
   closeButton: {
     padding: 4,
@@ -150,7 +156,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#333",
     marginBottom: 16,
   },
   statsGrid: {
@@ -160,7 +165,6 @@ const styles = StyleSheet.create({
   },
   statCard: {
     flex: 1,
-    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 16,
     alignItems: "center",
@@ -173,16 +177,13 @@ const styles = StyleSheet.create({
   statValue: {
     fontSize: 18,
     fontWeight: "700",
-    color: "#333",
     marginTop: 8,
   },
   statLabel: {
     fontSize: 12,
-    color: "#666",
     marginTop: 4,
   },
   improvementCard: {
-    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -201,10 +202,8 @@ const styles = StyleSheet.create({
   exerciseName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
   },
   badge: {
-    backgroundColor: "#34C759",
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
@@ -221,15 +220,12 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 14,
-    color: "#666",
   },
   dateText: {
     fontSize: 12,
-    color: "#999",
   },
   chartPlaceholder: {
     height: 200,
-    backgroundColor: "#fff",
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
@@ -240,7 +236,6 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   placeholderText: {
-    color: "#666",
     fontSize: 16,
   },
 }); 

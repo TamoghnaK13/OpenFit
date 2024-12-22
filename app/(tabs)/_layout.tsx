@@ -1,24 +1,27 @@
 // app/(tabs)/_layout.tsx
 import { Tabs } from "expo-router";
 import { Ionicons, Foundation } from "@expo/vector-icons";
+import { useTheme } from '../../utils/ThemeContext';
 
 export default function TabsLayout() {
+  const { colors } = useTheme();
+
   return (
     <Tabs
       screenOptions={{
         tabBarStyle: { 
-          backgroundColor: "#e5e5e5", 
+          backgroundColor: colors.surface,
           paddingBottom: 5,
           borderTopWidth: 1,
-          borderTopColor: "#dddddd",
+          borderTopColor: colors.border,
         },
-        tabBarActiveTintColor: "#333333",
-        tabBarInactiveTintColor: "#95a5a6",
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.textSecondary,
         headerShown: false,
         headerStyle: {
-          backgroundColor: '#ffffff',
+          backgroundColor: colors.surface,
           height: 60,
-          shadowColor: "#000",
+          shadowColor: colors.text,
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.05,
           shadowRadius: 2,
@@ -27,7 +30,7 @@ export default function TabsLayout() {
         headerTitleStyle: {
           fontSize: 20,
           fontWeight: "600",
-          color: "#333333",
+          color: colors.text,
         },
         headerTitleAlign: "left",
         headerLeftContainerStyle: {

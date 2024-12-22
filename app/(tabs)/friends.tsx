@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import AddFriendModal from "@/components/AddFriendModal";
+import { useTheme } from '@/utils/ThemeContext';
 
 // Mock data
 const mockFriends = [
@@ -12,38 +13,41 @@ const mockFriends = [
 
 export default function Friends() {
   const [isAddFriendModalVisible, setIsAddFriendModalVisible] = useState(false);
+  const { colors } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
       <ScrollView style={styles.scrollView}>
         {/* Friends List */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Your Friends</Text>
+          <Text style={[styles.sectionTitle, { color: colors.text }]}>Your Friends</Text>
           {mockFriends.map((friend) => (
-            <Pressable key={friend.id} style={styles.friendCard}>
+            <Pressable key={friend.id} style={[styles.friendCard, { backgroundColor: colors.surface }]}>
               <View style={styles.avatarContainer}>
-                <Ionicons name="person-circle" size={50} color="#007AFF" />
+                <Ionicons name="person-circle" size={50} color={colors.primary} />
               </View>
               <View style={styles.friendInfo}>
-                <Text style={styles.friendName}>{friend.name}</Text>
+                <Text style={[styles.friendName, { color: colors.text }]}>{friend.name}</Text>
                 <View style={styles.statsContainer}>
-                  <Text style={styles.statText}>
+                  <Text style={[styles.statText, { color: colors.textSecondary }]}>
                     {friend.workouts} workouts
                   </Text>
                   <View style={styles.streakContainer}>
                     <Ionicons name="flame" size={16} color="#FF9500" />
-                    <Text style={styles.statText}>{friend.streak} day streak</Text>
+                    <Text style={[styles.statText, { color: colors.textSecondary }]}>
+                      {friend.streak} day streak
+                    </Text>
                   </View>
                 </View>
               </View>
-              <Ionicons name="chevron-forward" size={24} color="#666" />
+              <Ionicons name="chevron-forward" size={24} color={colors.textSecondary} />
             </Pressable>
           ))}
         </View>
 
         {/* Add Friend Button */}
         <Pressable 
-          style={styles.addFriendButton}
+          style={[styles.addFriendButton, { backgroundColor: colors.primary }]}
           onPress={() => setIsAddFriendModalVisible(true)}
         >
           <Ionicons name="person-add" size={20} color="#fff" />
@@ -62,7 +66,6 @@ export default function Friends() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f0f0f0",
   },
   scrollView: {
     flex: 1,
@@ -73,13 +76,11 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#333",
     marginBottom: 16,
   },
   friendCard: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
@@ -98,7 +99,6 @@ const styles = StyleSheet.create({
   friendName: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#333",
     marginBottom: 4,
   },
   statsContainer: {
@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   },
   statText: {
     fontSize: 14,
-    color: "#666",
     marginRight: 12,
   },
   streakContainer: {
@@ -119,7 +118,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#007AFF",
     margin: 16,
     padding: 16,
     borderRadius: 8,

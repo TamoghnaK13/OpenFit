@@ -1,14 +1,14 @@
 // app/_layout.tsx
 import { Stack } from 'expo-router';
-import { SettingsProvider } from '@/contexts/SettingsContext';
+import ThemeProvider from '../components/ThemeProvider';
 
 export default function RootLayout() {
   return (
-    <SettingsProvider>
+    <ThemeProvider>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
-    </SettingsProvider>
+    </ThemeProvider>
   );
 }
