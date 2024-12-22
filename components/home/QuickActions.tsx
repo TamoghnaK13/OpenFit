@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ProgressModal from "../ProgressModal";
 import { useState } from "react";
-import { useTheme } from '@/utils/ThemeContext';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface QuickActionsProps {
   onAchievementsPress: () => void;

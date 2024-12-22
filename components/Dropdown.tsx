@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '@/contexts/ThemeContext';
 
 type Option = {
   label: string;
@@ -16,8 +17,64 @@ type Props = {
 
 export default function Dropdown({ label, value, options, onSelect }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const { colors } = useTheme();
 
   const selectedOption = options.find(opt => opt.value === value);
+
+  const styles = StyleSheet.create({
+    dropdownButton: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border,
+    },
+    selectedValue: {
+      flex: 1,
+    },
+    label: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    value: {
+      fontSize: 14,
+      color: colors.textSecondary,
+      marginTop: 4,
+    },
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    optionsContainer: {
+      width: '80%',
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      padding: 8,
+      borderColor: colors.border,
+      borderWidth: 1,
+    },
+    option: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 16,
+      borderRadius: 8,
+    },
+    selectedOption: {
+      backgroundColor: colors.background,
+    },
+    optionText: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    selectedOptionText: {
+      color: colors.primary,
+      fontWeight: '500',
+    },
+  });
 
   return (
     <>
@@ -29,7 +86,7 @@ export default function Dropdown({ label, value, options, onSelect }: Props) {
           <Text style={styles.label}>{label}</Text>
           <Text style={styles.value}>{selectedOption?.label}</Text>
         </View>
-        <Ionicons name="chevron-down" size={20} color="#666" />
+        <Ionicons name="chevron-down" size={20} color={colors.textSecondary} />
       </TouchableOpacity>
 
       <Modal
@@ -62,7 +119,7 @@ export default function Dropdown({ label, value, options, onSelect }: Props) {
                   {option.label}
                 </Text>
                 {option.value === value && (
-                  <Ionicons name="checkmark" size={20} color="#007AFF" />
+                  <Ionicons name="checkmark" size={20} color={colors.primary} />
                 )}
               </TouchableOpacity>
             ))}
@@ -71,57 +128,4 @@ export default function Dropdown({ label, value, options, onSelect }: Props) {
       </Modal>
     </>
   );
-}
-
-const styles = StyleSheet.create({
-  dropdownButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  selectedValue: {
-    flex: 1,
-  },
-  label: {
-    fontSize: 16,
-    color: '#333',
-  },
-  value: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  optionsContainer: {
-    width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 8,
-  },
-  option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
-    borderRadius: 8,
-  },
-  selectedOption: {
-    backgroundColor: '#f0f0f0',
-  },
-  optionText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  selectedOptionText: {
-    color: '#007AFF',
-    fontWeight: '500',
-  },
-}); 
+} 

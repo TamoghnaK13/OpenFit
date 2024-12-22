@@ -76,15 +76,15 @@ export default function Routines() {
           style={[styles.button, { backgroundColor: colors.surface }]}
           onPress={() => setIsPresetModalVisible(true)}
         >
-          <Ionicons name="search" size={20} color="#fff" />
-          <Text style={styles.buttonText}>Browse Presets</Text>
+          <Ionicons name="search" size={20} color={colors.text} />
+          <Text style={[styles.buttonText, { color: colors.text }]}>Browse Presets</Text>
         </TouchableOpacity>
 
         <TouchableOpacity 
           style={[styles.button, { backgroundColor: colors.primary }]}
           onPress={() => setIsRoutineCreatorVisible(true)}
         >
-          <Ionicons name="add" size={20} color={colors.text} />
+          <Ionicons name="add" size={20} color="#fff" />
           <Text style={styles.buttonText}>Create Routine</Text>
         </TouchableOpacity>
       </View>

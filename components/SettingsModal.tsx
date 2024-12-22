@@ -1,6 +1,8 @@
-import { View, Text, StyleSheet, Modal, Pressable, Switch } from "react-native";
+import { View, Text, StyleSheet, Modal, Pressable, Switch, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from '@/contexts/ThemeContext';
+import { useSettings } from '@/contexts/SettingsContext';
+import Dropdown from './Dropdown';
 
 interface SettingsModalProps {
   visible: boolean;
@@ -9,6 +11,12 @@ interface SettingsModalProps {
 
 export default function SettingsModal({ visible, onClose }: SettingsModalProps) {
   const { theme, colors, toggleTheme } = useTheme();
+  const { useKilograms, toggleWeightUnit } = useSettings();
+
+  const weightUnitOptions = [
+    { label: 'Kilograms (kg)', value: 'kg' },
+    { label: 'Pounds (lbs)', value: 'lbs' },
+  ];
 
   const styles = StyleSheet.create({
     centeredView: {
@@ -39,7 +47,7 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
     },
     settingSection: {
       backgroundColor: colors.surface,
-      borderRadius: 10,
+      borderRadius: 10, 
       padding: 15,
       marginBottom: 20,
     },
@@ -84,6 +92,12 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
       fontSize: 16,
       fontWeight: "600",
     },
+    scrollContent: {
+      flex: 1,
+    },
+    scrollContentContainer: {
+      paddingBottom: 40,
+    },
   });
 
   return (
@@ -94,7 +108,7 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
       onRequestClose={onClose}
     >
       <View style={styles.centeredView}>
-        <View style={styles.modalView}>
+        <View style={[styles.modalView, { backgroundColor: colors.background }]}>
           <View style={styles.modalHeader}>
             <Text style={styles.modalTitle}>Settings</Text>
             <Pressable onPress={onClose} style={styles.closeButton}>
@@ -102,60 +116,71 @@ export default function SettingsModal({ visible, onClose }: SettingsModalProps) 
             </Pressable>
           </View>
 
-          <View style={styles.settingSection}>
-            <Text style={styles.sectionTitle}>Appearance</Text>
-            <View style={styles.settingItem}>
-              <Text style={styles.settingLabel}>Dark Theme</Text>
-              <Switch
-                value={theme === 'dark'}
-                onValueChange={toggleTheme}
+          <ScrollView 
+            style={styles.scrollContent}
+            contentContainerStyle={styles.scrollContentContainer}
+          >
+            <View style={[styles.settingSection, { backgroundColor: colors.surface }]}>
+              <Text style={[styles.sectionTitle, { color: colors.text }]}>Preferences</Text>
+              <Dropdown
+                label="Weight Unit"
+                value={useKilograms ? 'kg' : 'lbs'}
+                options={weightUnitOptions}
+                onSelect={(value) => toggleWeightUnit()}
               />
+              <View style={styles.settingItem}>
+                <Text style={styles.settingLabel}>Dark Theme</Text>
+                <Switch
+                  value={theme === 'dark'}
+                  onValueChange={toggleTheme}
+                />
+              </View>
             </View>
-          </View>
-
-          <View style={styles.settingSection}>
-            <Text style={styles.sectionTitle}>Notifications</Text>
-            <View style={styles.settingItem}>
-              <Text style={styles.settingLabel}>Workout Reminders</Text>
-              <Switch />
+            
+            <View style={styles.settingSection}>
+              <Text style={styles.sectionTitle}>Notifications</Text>
+              <View style={styles.settingItem}>
+                <Text style={styles.settingLabel}>Workout Reminders</Text>
+                <Switch />
+              </View>
+              <View style={styles.settingItem}>
+                <Text style={styles.settingLabel}>Achievement Alerts</Text>
+                <Switch />
+              </View>
             </View>
-            <View style={styles.settingItem}>
-              <Text style={styles.settingLabel}>Achievement Alerts</Text>
-              <Switch />
+
+            <View style={styles.settingSection}>
+              <Text style={styles.sectionTitle}>Account</Text>
+              <Pressable style={styles.settingButton}>
+                <Text style={styles.settingButtonText}>Edit Profile</Text>
+                <Ionicons name="chevron-forward" size={20} color={colors.text} />
+              </Pressable>
+              <Pressable style={styles.settingButton}>
+                <Text style={styles.settingButtonText}>Change Password</Text>
+                <Ionicons name="chevron-forward" size={20} color={colors.text} />
+              </Pressable>
+              <Pressable style={styles.settingButton}>
+                <Text style={styles.settingButtonText}>Privacy Settings</Text>
+                <Ionicons name="chevron-forward" size={20} color={colors.text} />
+              </Pressable>
             </View>
-          </View>
 
-          <View style={styles.settingSection}>
-            <Text style={styles.sectionTitle}>Account</Text>
-            <Pressable style={styles.settingButton}>
-              <Text style={styles.settingButtonText}>Edit Profile</Text>
-              <Ionicons name="chevron-forward" size={20} color={colors.text} />
-            </Pressable>
-            <Pressable style={styles.settingButton}>
-              <Text style={styles.settingButtonText}>Change Password</Text>
-              <Ionicons name="chevron-forward" size={20} color={colors.text} />
-            </Pressable>
-            <Pressable style={styles.settingButton}>
-              <Text style={styles.settingButtonText}>Privacy Settings</Text>
-              <Ionicons name="chevron-forward" size={20} color={colors.text} />
-            </Pressable>
-          </View>
+            <View style={styles.settingSection}>
+              <Text style={styles.sectionTitle}>About</Text>
+              <Pressable style={styles.settingButton}>
+                <Text style={styles.settingButtonText}>Terms of Service</Text>
+                <Ionicons name="chevron-forward" size={20} color={colors.text} />
+              </Pressable>
+              <Pressable style={styles.settingButton}>
+                <Text style={styles.settingButtonText}>Privacy Policy</Text>
+                <Ionicons name="chevron-forward" size={20} color={colors.text} />
+              </Pressable>
+            </View>
 
-          <View style={styles.settingSection}>
-            <Text style={styles.sectionTitle}>About</Text>
-            <Pressable style={styles.settingButton}>
-              <Text style={styles.settingButtonText}>Terms of Service</Text>
-              <Ionicons name="chevron-forward" size={20} color={colors.text} />
+            <Pressable style={styles.logoutButton}>
+              <Text style={styles.logoutButtonText}>Log Out</Text>
             </Pressable>
-            <Pressable style={styles.settingButton}>
-              <Text style={styles.settingButtonText}>Privacy Policy</Text>
-              <Ionicons name="chevron-forward" size={20} color={colors.text} />
-            </Pressable>
-          </View>
-
-          <Pressable style={styles.logoutButton}>
-            <Text style={styles.logoutButtonText}>Log Out</Text>
-          </Pressable>
+          </ScrollView>
         </View>
       </View>
     </Modal>

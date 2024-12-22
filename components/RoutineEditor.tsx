@@ -6,6 +6,7 @@ import ExercisePicker from "./ExercisePicker";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Animated from 'react-native-reanimated';
+import { useSettings } from '@/contexts/SettingsContext';
 
 export interface Set {
   id: number;
@@ -37,6 +38,7 @@ export default function RoutineEditor({
   exercises: initialExercises = []
 }: Props) {
   const { colors } = useTheme();
+  const { useKilograms, convertWeight } = useSettings();
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
   const [exercises, setExercises] = useState<Exercise[]>(initialExercises);
@@ -219,9 +221,14 @@ export default function RoutineEditor({
                                   </View>
                                   <Text style={styles.inputDivider}>×</Text>
                                   <View style={styles.inputGroup}>
-                                    <Text style={styles.inputLabel}>Weight (kg)</Text>
+                                    <Text style={[styles.inputLabel, { color: colors.text }]}>
+                                      Weight {useKilograms ? '(kg)' : '(lbs)'}
+                                    </Text>
                                     <TextInput
-                                      style={styles.numberInput}
+                                      style={[styles.numberInput, { 
+                                        backgroundColor: colors.background,
+                                        color: colors.text 
+                                      }]}
                                       value={set.weight.toString()}
                                       onChangeText={(text) => {
                                         const updatedExercises = [...exercises];
